@@ -1,0 +1,39 @@
+.history {
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+
+    h1 {
+      color: #333;
+      font-size: 2rem;
+      margin: 0;
+    }
+
+    .total-count {
+      background: #757575;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+  }
+
+  .overdue-return {
+    color: #d32f2f;
+    font-weight: 500;
+  }
+
+  .badge {
+    &.on-time {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    &.overdue {
+      background: #ffebee;
+      color: #c62828;
+    }
+  }
+}

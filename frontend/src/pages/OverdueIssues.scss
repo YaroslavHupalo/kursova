@@ -1,0 +1,59 @@
+.overdue-issues {
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    h1 {
+      color: #d32f2f;
+      font-size: 2rem;
+      margin: 0;
+    }
+
+    .total-count {
+      background: #d32f2f;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 1.2rem;
+    }
+  }
+
+  .warning-message {
+    background: #fff3e0;
+    color: #e65100;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #ff9800;
+    font-weight: 500;
+  }
+
+  .no-data {
+    background: #e8f5e9;
+    padding: 60px 20px;
+    border-radius: 12px;
+    text-align: center;
+    color: #2e7d32;
+    font-size: 1.3rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .overdue-date {
+    color: #d32f2f;
+    font-weight: 600;
+  }
+
+  .days-overdue {
+    .overdue-badge {
+      background: #ffebee;
+      color: #c62828;
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+  }
+}

@@ -1,0 +1,198 @@
+.active-issues {
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+
+    h1 {
+      color: #333;
+      font-size: 2rem;
+      margin: 0;
+    }
+
+    .header-info {
+      .total-count {
+        background: #2a5298;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.search-bar {
+  margin-bottom: 20px;
+
+  input {
+    width: 100%;
+    padding: 12px 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+
+    &:focus {
+      outline: none;
+      border-color: #2a5298;
+    }
+  }
+}
+
+.no-data {
+  background: white;
+  padding: 60px 20px;
+  border-radius: 12px;
+  text-align: center;
+  color: #999;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.issues-table-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.issues-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead {
+    background: #f8f9fa;
+
+    tr th {
+      padding: 15px 12px;
+      text-align: left;
+      font-weight: 600;
+      color: #555;
+      border-bottom: 2px solid #e0e0e0;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid #f0f0f0;
+      transition: background 0.2s;
+
+      &:hover {
+        background: #f8f9fa;
+      }
+
+      &.overdue-row {
+        background: #fff3f3;
+
+        &:hover {
+          background: #ffe8e8;
+        }
+      }
+
+      td {
+        padding: 15px 12px;
+        color: #333;
+        font-size: 0.95rem;
+
+        &.id-cell {
+          font-weight: 600;
+          color: #2a5298;
+        }
+
+        &.reader-cell {
+          .reader-name {
+            font-weight: 500;
+          }
+        }
+
+        &.book-cell {
+          max-width: 250px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        &.overdue-date {
+          color: #d32f2f;
+          font-weight: 500;
+        }
+
+        .days-info {
+          font-size: 0.8rem;
+          color: #777;
+          margin-top: 4px;
+        }
+      }
+    }
+  }
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+
+  &.active {
+    background: #e3f2fd;
+    color: #1976d2;
+  }
+
+  &.warning {
+    background: #fff3e0;
+    color: #e65100;
+  }
+
+  &.overdue {
+    background: #ffebee;
+    color: #c62828;
+  }
+}
+
+.actions-cell {
+  .btn-return {
+    padding: 8px 16px;
+    background: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background 0.3s;
+
+    &:hover:not(:disabled) {
+      background: #388e3c;
+    }
+
+    &:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .issues-table-container {
+    overflow-x: auto;
+  }
+
+  .issues-table {
+    min-width: 1000px;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+}
