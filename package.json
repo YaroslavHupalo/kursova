@@ -1,0 +1,19 @@
+{
+  "name": "kursova_lib",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "start:backend": "npm run dev --prefix backend",
+    "start:frontend": "cross-env PORT=3001 BROWSER=none npm start --prefix frontend",
+    "dev": "concurrently -k -n backend,frontend -c blue,green \"npm run dev --prefix backend\" \"cross-env PORT=3001 BROWSER=none npm start --prefix frontend\"",
+    "build": "npm run build --prefix backend && npm run build --prefix frontend"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "cross-env": "^7.0.3"
+  }
+}
