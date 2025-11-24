@@ -112,3 +112,49 @@ export const getProfile = async (req: AuthRequest, res: Response): Promise<void>
     res.status(500).json({ message: 'Server error', error: (error as Error).message });
   }
 };
+
+// Change password
+export const changePassword = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    if (!req.user) {
+      res.status(401).json({ message: 'Unauthorized' });
+      return;
+    }
+
+    const { oldPassword, newPassword } = req.body;
+
+    if (!oldPassword || !newPassword) {
+      res.status(400).json({ message: 'Old and new password are required' });
+      return;
+    }
+
+    // Basic complexity check (min 8 chars, upper, lower, digit)
+    const complexityRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    if (!complexityRegex.test(newPassword)) {
+      res.status(400).json({
+        message: 'New password must be at least 8 chars and include upper, lower case letters and a digit'
+      });
+      return;
+    }
+
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+
+    const matches = await bcrypt.compare(oldPassword, user.password);
+    if (!matches) {
+      res.status(400).json({ message: 'Old password is incorrect' });
+      return;
+    }
+
+    const hashed = await bcrypt.hash(newPassword, 10);
+    user.password = hashed;
+    await user.save();
+
+    res.json({ message: 'Password changed successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: (error as Error).message });
+  }
+};
