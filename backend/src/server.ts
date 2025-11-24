@@ -13,7 +13,8 @@ import { errorHandler } from './middleware';
 dotenv.config();
 
 const app: Application = express();
-const PORT = process.env.PORT ? Number(process.env.PORT) : 5000;
+// Prefer explicit PORT from env, fall back to 5002 (documented dev port)
+const PORT = process.env.PORT ? Number(process.env.PORT) : 5002;
 
 // Middleware
 app.use(cors({
@@ -36,6 +37,41 @@ app.use('/api/book-issues', bookIssueRoutes);
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Server is running' });
+});
+
+// Debug: Database status (disabled in production)
+app.get('/api/debug/db-status', async (req, res) => {
+  if (process.env.NODE_ENV === 'production') {
+    return res.status(403).json({ message: 'Disabled in production' });
+  }
+  try {
+    const mongoose = require('mongoose');
+    const stateMap: Record<number, string> = {
+      0: 'disconnected',
+      1: 'connected',
+      2: 'connecting',
+      3: 'disconnecting'
+    };
+    const readyState = mongoose.connection.readyState;
+    // Attempt lightweight counts (may fail if not connected yet)
+    let userCount: number | null = null;
+    let bookIssueCount: number | null = null;
+    if (readyState === 1) {
+      try { userCount = await mongoose.model('User').countDocuments(); } catch {}
+      try { bookIssueCount = await mongoose.model('BookIssue').countDocuments(); } catch {}
+    }
+    res.json({
+      mongodb: {
+        uriDefined: !!process.env.MONGODB_URI,
+        readyState,
+        readyStateText: stateMap[readyState] || 'unknown',
+        userCount,
+        bookIssueCount
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ message: 'Debug error', error: (err as Error).message });
+  }
 });
 
 // Error handling middleware
