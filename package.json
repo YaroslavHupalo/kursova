@@ -14,9 +14,11 @@
     "build": "npm run build --prefix frontend && npm run build --prefix backend && shx rm -rf backend/public && shx cp -r frontend/build backend/public",
     "postbuild": "echo 'Build complete. Frontend copied to backend/public'"
   },
+  "dependencies": {
+    "shx": "^0.4.0"
+  },
   "devDependencies": {
     "concurrently": "^9.1.0",
-    "cross-env": "^7.0.3",
-    "shx": "^0.4.0"
+    "cross-env": "^7.0.3"
   }
 }
