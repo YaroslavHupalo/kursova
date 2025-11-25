@@ -8,6 +8,7 @@ import bcrypt from 'bcryptjs';
 import User from './models/User.model';
 import { authRoutes, bookIssueRoutes } from './routes';
 import { errorHandler } from './middleware';
+import path from 'path';
 
 // Load environment variables
 dotenv.config();
@@ -23,7 +24,9 @@ app.use(cors({
 }));
 // Production hardening
 if (process.env.NODE_ENV === 'production') {
-  app.use(helmet());
+  app.use(helmet({
+    contentSecurityPolicy: false, // Disable CSP for simple React serving
+  }));
   // Cast compression to any to satisfy differing overload expectations
   app.use(compression() as any);
 }
@@ -73,6 +76,22 @@ app.get('/api/debug/db-status', async (req, res) => {
     res.status(500).json({ message: 'Debug error', error: (err as Error).message });
   }
 });
+
+// Serve static files from the React frontend app
+if (process.env.NODE_ENV === 'production') {
+  // The path to the frontend build directory
+  // Assuming structure: root/backend/dist/server.js and root/frontend/build
+  // We need to go up from dist/server.js to root, then to frontend/build
+  // Or we can copy frontend/build into backend/public during build
+  
+  // Let's assume we copy frontend build to backend/public
+  const publicPath = path.join(__dirname, '../public');
+  app.use(express.static(publicPath));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(publicPath, 'index.html'));
+  });
+}
 
 // Error handling middleware
 app.use(errorHandler);
