@@ -54,7 +54,7 @@ const Layout: React.FC = () => {
               // User clicked OK
             }
           }} className="btn-higher-grade">
-            ⭐ Отримати вищу оцінку
+            Отримати вищу оцінку
           </button>
         </nav>
 
