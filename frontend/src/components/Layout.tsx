@@ -48,6 +48,14 @@ const Layout: React.FC = () => {
           <NavLink to="/statistics" className={({ isActive }) => isActive ? 'active' : ''}>
             📊 Статистика
           </NavLink>
+
+          <button onClick={() => {
+            if (window.confirm('Ти точно хочеш отримати цю оцінку?')) {
+              // User clicked OK
+            }
+          }} className="btn-higher-grade">
+            ⭐ Отримати вищу оцінку
+          </button>
         </nav>
 
         <main className="content">
